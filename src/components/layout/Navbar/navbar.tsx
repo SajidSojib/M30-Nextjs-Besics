@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/layout/Navbar/logo";
 import { NavMenu } from "@/components/layout/Navbar/nav-menu";
 import { NavigationSheet } from "@/components/layout/Navbar/navigation-sheet";
+import { ModeToggle } from "./ModeToggle";
 
 const Navbar = () => {
   return (
@@ -13,13 +14,16 @@ const Navbar = () => {
         <NavMenu className="hidden md:block" />
 
         <div className="flex items-center gap-3">
+          <ModeToggle></ModeToggle>
           <Button
             variant="outline"
-            className="hidden sm:inline-flex rounded-full"
+            className="hidden md:inline-flex rounded-full"
           >
             Login
           </Button>
-          <Button className="rounded-full">Sign Out</Button>
+          <Button className="hidden md:inline-flex rounded-full">
+            Sign Out
+          </Button>
 
           {/* Mobile Menu */}
           <div className="md:hidden">

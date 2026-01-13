@@ -25,6 +25,10 @@ export const NavigationSheet = () => {
       <SheetContent className="px-6 py-3">
         <Logo />
         <NavMenu orientation="vertical" className="mt-6 [&>div]:h-full" />
+        <Button variant="outline" className="md:hidden rounded-full">
+          Login
+        </Button>
+        <Button className="md:hidden rounded-full">Sign Out</Button>
       </SheetContent>
     </Sheet>
   );
