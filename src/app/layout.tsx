@@ -35,10 +35,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <nav>
+          {/* <nav>
             <Navbar />
-          </nav>
-          <main className="mt-10">{children}</main>
+          </nav> */}
+          <main>{children}</main>
         </ThemeProvider>
       </body>
     </html>
