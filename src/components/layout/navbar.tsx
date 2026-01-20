@@ -3,6 +3,7 @@ import { Logo } from "@/components/layout/logo";
 import { NavMenu } from "@/components/layout/nav-menu";
 import { NavigationSheet } from "@/components/layout/navigation-sheet";
 import { ModeToggle } from "./ModeToggle";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -18,11 +19,12 @@ const Navbar = () => {
           <Button
             variant="outline"
             className="hidden md:inline-flex rounded-full"
+            asChild
           >
-            Login
+            <Link href="/login">Login</Link>
           </Button>
-          <Button className="hidden md:inline-flex rounded-full">
-            Sign Out
+          <Button className="hidden md:inline-flex rounded-full" asChild>
+            <Link href="/signup">Sign Up</Link>
           </Button>
 
           {/* Mobile Menu */}
