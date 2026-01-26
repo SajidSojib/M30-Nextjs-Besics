@@ -1,4 +1,5 @@
 import { env } from "@/env";
+// import { authClient } from "@/lib/auth-client";
 import { cookies } from "next/headers";
 
 const AUTH_URL = env.AUTH_URL;
