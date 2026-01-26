@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,20 +8,35 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
-import {useForm} from "@tanstack/react-form"
-import * as z from "zod"
-
+} from "@/components/ui/card";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
+import { useForm } from "@tanstack/react-form";
+import { toast } from "sonner";
+import * as z from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.email(),
-  password: z.string().min(6, "Password must be at least 6 characters")
-})
+  password: z.string().min(8, "Password must be at least 6 characters"),
+});
 
 export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
+  const handleGoogleLogin = async () => {
+    const data = authClient.signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:3000",
+    });
+    console.log(data);
+  };
+
   const form = useForm({
     defaultValues: {
       name: "",
@@ -29,12 +44,22 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
       password: "",
     },
     validators: {
-      onChange: formSchema
+      onChange: formSchema,
     },
-    onSubmit: async ({value}) => {
-      alert(JSON.stringify(value))
-    }
-  })
+    onSubmit: async ({ value }) => {
+      const toastId = toast.loading("Creating your account...");
+      try {
+        const { data, error } = await authClient.signUp.email(value);
+        if (error) {
+          toast.error(error.message, { id: toastId });
+          return;
+        }
+        toast.success("Account created successfully", { id: toastId });
+      } catch (error) {
+        toast.error("Something went wrong", { id: toastId });
+      }
+    },
+  });
   return (
     <Card {...props}>
       <CardHeader>
@@ -56,7 +81,8 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
             <form.Field
               name="name"
               children={(field) => {
-                const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid;
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
                 return (
                   <Field data-invalid={isInvalid}>
                     <FieldLabel htmlFor={field.name}>Name</FieldLabel>
@@ -77,7 +103,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               }}
             />
 
-          {/* email field */}
+            {/* email field */}
             <form.Field
               name="email"
               children={(field) => {
@@ -103,7 +129,7 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
               }}
             />
 
-          {/* password field */}
+            {/* password field */}
             <form.Field
               name="password"
               children={(field) => {
@@ -131,9 +157,13 @@ export function SignupForm({ ...props }: React.ComponentProps<typeof Card>) {
           </FieldGroup>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button form="signup-form" type="submit">
-          Submit
+      <CardFooter className="flex flex-col gap-3 justify-end">
+        <Button form="signup-form" type="submit" className="">
+          Register
+        </Button>
+        <Separator />
+        <Button onClick={handleGoogleLogin} variant="outline" type="button">
+          Continue with Google
         </Button>
       </CardFooter>
     </Card>
