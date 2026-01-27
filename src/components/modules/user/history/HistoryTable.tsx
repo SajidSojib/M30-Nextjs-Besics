@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { BlogPost } from '@/types/blog.type';
 
-const HistoryTable = ({blogs}: {blogs: BlogPost[]}) => {
+const HistoryTable = ({blogs, pagination}: {blogs: BlogPost[], pagination: any}) => {
     return (
       <div className='border rounded-md'>
         <Table>

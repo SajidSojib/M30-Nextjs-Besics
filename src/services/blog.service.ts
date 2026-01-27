@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 interface Params {
   isFeatured?: boolean;
   search?: string;
+  page?: string;
+  limit?: string;
 }
 interface ServiceOptions {
   cache?: RequestCache,
@@ -51,7 +53,7 @@ export const blogService = {
     //   }else {
     //     return { success: false, data: null, error: data.error };
     //   }
-    return { success: true, data: data.data, error: null };
+    return { success: true, data: data.data, pagination: data.pegination, error: null };
     } catch (error) {
       return { success: false, data: null, error: error };
     }
