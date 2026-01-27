@@ -1,7 +1,6 @@
+import { redirect } from 'next/navigation'
 import React from 'react'
 
 export default function userDashboard() {
-  return (
-    <div>userDashboard</div>
-  )
+  return redirect('/user-dashboard/create-post')
 }

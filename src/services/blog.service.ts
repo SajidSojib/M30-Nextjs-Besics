@@ -1,4 +1,5 @@
 import { env } from "@/env";
+import { cookies } from "next/headers";
 
 interface Params {
   isFeatured?: boolean;
@@ -32,6 +33,8 @@ export const blogService = {
         config.next = { revalidate: options.revalidate };
       }
 
+      config.next = {...config.next, tags: ['blogPosts']}
+
       const res = await fetch(url.toString(), config);
 
       // const res = await fetch(`${API_URL}/posts`, {
@@ -64,4 +67,27 @@ export const blogService = {
       return { success: false, data: null, error: error };
     }
   },
+
+  createBlog: async function (data: {
+    title: string;
+    content: string;
+    tags: string[];
+  }) {
+    try {
+      const cookieStore = await cookies();
+      const res = await fetch(`${API_URL}/posts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Cookie: cookieStore.toString(),
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      return { success: true, data: result, error: null };
+    } catch (error) {
+      return { success: false, data: null, error: error };
+    }
+    
+  }
 };

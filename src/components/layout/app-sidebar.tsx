@@ -18,6 +18,7 @@ import Link from "next/link";
 import { adminRoutes } from "@/routes/adminRoutes";
 import { userRoutes } from "@/routes/userRoutes";
 import { Route } from "@/types/routes.type";
+import { Roles } from "@/constants/roles";
 
 // This is sample data.
 const data = {
@@ -64,10 +65,10 @@ export function AppSidebar({
   let routes: Route[] = [];
 
   switch (user.role) {
-    case "ADMIN":
+    case Roles.ADMIN:
       routes = adminRoutes;
       break;
-    case "USER":
+    case Roles.USER:
       routes = userRoutes;
       break;
     default:
